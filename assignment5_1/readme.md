@@ -32,36 +32,52 @@ To explore the data, knowledge gained till now on plotting, statistical summarie
 4. What proportion of the total observations chose to accept the coupon?
 
 > A pie chart was plotted to view the % of coupons accepted vs not accepted and it was observed that 56.8% of the time the coupons were accepted
+>
+> ![Proportion of Coupon Acceptance](images/observations_coupon_accepted.png)
 
 5. Use a bar plot to visualize the `coupon` column
 
 > Analyzing the data for the 'coupon' column, and plotting a bar graph, it is observed that the most frequent coupon type is Coffee House, followed by Restaurant(<20).
+>
+> ![Distribution of Coupon Types](images/coupon_bar.png)
 
 6. Use a histogram to visualize the temperature column
 
 > Since the temperature column contains only three unique values (30F, 55F, and 80F), the histogram acts as a frequency bar chart for these categories.  A histogram's purpose is to group continuous data. Since the data points are only at 30, 55, and 80, the histogram will show three tall bars with empty space (bins with zero count) in between.
+>
+> ![Distribution of Temperature Observations](images/temperature_histogram.png)
 
 ***The next set of scenarios related to Bar coupons only***
 
 7.1 & 7.2 Creating the dataset with only the Bar coupons and understand the proportion accepted
 
 > A Pie chart was plotted to see that the accepted persentage was around 41%
+>
+> ![Proportion of Bar Coupon Acceptance](images/bar_coupon_accepted.png)
 
 7.3 Compare the acceptance rate between those who went to a bar 3 or fewer times a month to those who went more
 
 > Low frequency bar visitors (<=3/month) and High frequency bar visitors (>3/month) was defined to calculate the acceptance % for each of the categories. 2 Pie charts were plotted for these 2 categories. It is observed that the acceptance rate was less, around 37.1%, for the Low frequency bar visitors. For the High frequency bar visitors, the acceptance was much higher at 73.2%, which is almost twice higher that the lower category
+>
+> ![Acceptance Rate for Low Frequency Bar Visitors](images/low_frequency_visitors.png)
+> 
+> ![Acceptance Rate for High Frequency Bar Visitors](images/high_frequency_visitors.png)
 
 7.4 Compare the acceptance rate between drivers who go to a bar more than once a month and are over the age of 25 to the all others.  Is there a difference?
 
 > The comparison reveals a substantial difference in the 'Bar' coupon acceptance rate between the two groups. The Target Segment (drivers who go to a bar more than once a month AND are over the age of 25) shows an acceptance rate more than double that of the All Others segment. Yes, there is a significant difference. This specific segment of drivers is highly engaged and far more likely to accept a bar coupon than the general population of bar coupon recipients
 >
 > A bar grpah was drawn to depict the % acceptance for these 2 groups.
+>
+> ![Bar Coupon Acceptance Rate Comparison](images/bar_coupon_acceptance_rate.png)
 
 7.5 Use the same process to compare the acceptance rate between drivers who go to bars more than once a month and had passengers that were not a kid and had occupations other than farming, fishing, or forestry
 
 > The comparison shows a dramatic difference in the 'Bar' coupon acceptance rate between the two groups. The Target Segment (drivers who go to a bar more than once a month, had passengers that were not a kid, and had occupations other than farming, fishing, or forestry) is more than twice as likely to accept the coupon compared to the 'All Others' group. This segment represents a high-value customer group for bar promotions.
 >
 > The bar chart visually compares the acceptance rate (proportion of accepted coupons) for the two segments
+>
+> ![Bar Coupon Acceptance Rate Comparison](images/bar_coupon_acceptance_rate_compare.png)
 
 7.6 Compare the acceptance rates between those drivers who:
 - go to bars more than once a month, had passengers that were not a kid, and were not widowed *OR*
@@ -71,6 +87,8 @@ To explore the data, knowledge gained till now on plotting, statistical summarie
 > The Combined Target Group has an acceptance rate of 59.14%, which is significantly higher (nearly double) the acceptance rate of 29.40% for the 'All Others' group. This combined targeting strategy effectively identifies drivers who are much more likely to redeem the bar coupon.
 >
 > The bar chart  visually represents the difference in the acceptance rate between the two groups.
+>
+> ![Bar Coupon Acceptance Rate Comparison for Combined Target Group](images/bar_coupon_acceptance_rate_targetgroup.png)
 
 7.7 Based on these observations, what do you hypothesize about drivers who accepted the bar coupons?
 
@@ -91,14 +109,20 @@ To explore the data, knowledge gained till now on plotting, statistical summarie
 >    - Frequent Patrons (4~8, gt8): Acceptance rates are 73.47% to 78.00%.
 >    - Non-Patrons (never): Acceptance rate drops to 18.80%.
 >
+> ![Hypothesis Support 1: Acceptance Rate vs. Bar Frequency](images/hypothesis_1.png)
+>
 >2. Acceptance Rate vs. Driver Age
 >The hypothesis suggests older, established adults are more likely to accept. The data shows acceptance is highest for the youngest age groups, but the rates for those aged 30 and older are also significant:
 >    - Ages 21 and 26: Highest acceptance rates (approx. 48% to 50%).
 >    - Ages 30 and above: Acceptance rates stabilize between 29% and 44%, showing that drivers outside the 21-26 range still show substantial interest. The dip for ages 36 and 46 suggests complex life stage factors (e.g., family responsibilities) that the coupon marketers might be missing, but the overall rate for older drivers is still high enough to be valuable.
+>
+> ![Hypothesis Support 2: Acceptance Rate vs. Driver Age](images/hypothesis_2.png)
 >
 >3. Acceptance Rate vs. Passenger Type (Social Context)
 >The hypothesis states that the bar coupons are more likely accepted in an adult social context.
 >    - Adult Social Context (Friend(s)): Highest acceptance rate at 56.19%.
 >    - Non-Social Context (Alone, Partner): Acceptance rates are lower (approx. 38% to 40%).
 >    - Family Context (Kid(s)): Lowest acceptance rate at 20.69%, confirming that offers are less effective when children are present.
+>
+> ![Hypothesis Support 3: Acceptance Rate vs. Passenger Type](images/hypothesis_3.png)
 
