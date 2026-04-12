@@ -1,4 +1,4 @@
-# Bank Marketing Campaign — Classifier Comparison Analysis
+# Bank Marketing Campaign - Classifier Comparison Analysis
 
 > **Practical Application III** | Machine Learning | CRISP-DM Framework - [link to notebook](prompt_III.ipynb)  
 > Dataset: [UCI Bank Marketing Dataset](data\bank-additional-full.csv)  
@@ -15,8 +15,8 @@
 5. [Methodology](#5-methodology)
 6. [Feature Engineering](#6-feature-engineering)
 7. [Baseline Model](#7-baseline-model)
-8. [Model Comparison — Default Settings](#8-model-comparison--default-settings)
-9. [Model Improvement — Hyperparameter Tuning](#9-model-improvement--hyperparameter-tuning)
+8. [Model Comparison - Default Settings](#8-model-comparison--default-settings)
+9. [Model Improvement - Hyperparameter Tuning](#9-model-improvement--hyperparameter-tuning)
 10. [Key Findings](#10-key-findings)
 11. [Conclusions & Recommendations](#11-conclusions--recommendations)
 12. [Dependencies](#12-dependencies)
@@ -61,7 +61,7 @@ The dataset originates from **17 direct marketing campaigns** conducted by a Por
 
 | Feature | Notes |
 |---|---|
-| `duration` | Excluded — call duration is only known *after* the call ends, making it a data leakage risk |
+| `duration` | Excluded - call duration is only known *after* the call ends, making it a data leakage risk |
 | `pdays` | `999` is a sentinel value meaning the client was never previously contacted |
 | Macro-economic features | `emp.var.rate`, `cons.price.idx`, `cons.conf.idx`, `euribor3m`, `nr.employed` |
 
@@ -78,7 +78,7 @@ No  (0):  36,548  →  88.7%   ← majority class
 Yes (1):   4,640  →  11.3%   ← minority class (the class we care about)
 ```
 
-> ⚠️ **The dataset is significantly imbalanced.** A naive model that always predicts "No" achieves 88.7% accuracy without learning anything useful. This makes **F1-macro and recall on the "Yes" class** the more meaningful metrics for business impact — not overall accuracy.
+> ⚠️ **The dataset is significantly imbalanced.** A naive model that always predicts "No" achieves 88.7% accuracy without learning anything useful. This makes **F1-macro and recall on the "Yes" class** the more meaningful metrics for business impact - not overall accuracy.
 
 ---
 
@@ -88,7 +88,7 @@ Yes (1):   4,640  →  11.3%   ← minority class (the class we care about)
 
 A successful model must:
 - Exceed the 88.7% naive baseline on overall accuracy
-- Meaningfully identify the minority ("Yes") class — not just default to "No"
+- Meaningfully identify the minority ("Yes") class - not just default to "No"
 - Be interpretable enough to inform marketing strategy
 
 ---
@@ -143,8 +143,8 @@ Improvement         ->  GridSearchCV hyperparameter tuning (scored on f1_macro)
 
 ### Train / Test Split
 
-- **80% Training** — 32,950 rows
-- **20% Test** — 8,238 rows
+- **80% Training** - 32,950 rows
+- **20% Test** - 8,238 rows
 - **Stratified split** to preserve class proportions in both sets
 - `random_state=42` for full reproducibility
 
@@ -164,15 +164,15 @@ Numeric features     ->  StandardScaler
 Categorical features  ->  OneHotEncoder (drop='first', handle_unknown='ignore')
 ```
 
-- **`age`** is the only numeric feature — z-score normalised
-- **6 categorical features** — one-hot encoded (dropping first category to avoid multicollinearity)
+- **`age`** is the only numeric feature - z-score normalised
+- **6 categorical features** - one-hot encoded (dropping first category to avoid multicollinearity)
 - Original 7 features expand to **~30 encoded features** after OHE
 
 ### Data Quality Notes
 
 - **No explicit NaN values** exist in the dataset
 - `'unknown'` acts as an encoded missing value in several columns:
-  - `default`: 20.9% unknown — retained to avoid discarding ~20% of data
+  - `default`: 20.9% unknown - retained to avoid discarding ~20% of data
   - `education`: 4.2% unknown
   - `housing` / `loan`: ~2.4% each
 - `'unknown'` categories are treated as a valid level during one-hot encoding
@@ -196,11 +196,11 @@ Baseline Recall on "Yes":       0%
 Baseline F1-macro:             ~0.47
 ```
 
-Every real model must surpass this, and — more importantly — must demonstrate **meaningful recall on the "Yes" class** to provide genuine business value.
+Every real model must surpass this, and - more importantly - must demonstrate **meaningful recall on the "Yes" class** to provide genuine business value.
 
 ---
 
-## 8. Model Comparison — Default Settings
+## 8. Model Comparison - Default Settings
 
 All four models were trained with scikit-learn default hyperparameters and evaluated on the held-out test set:
 
@@ -215,18 +215,18 @@ All four models were trained with scikit-learn default hyperparameters and evalu
 
 ### Observations
 
-- **Logistic Regression and SVM tie** at 88.74% test accuracy with zero overfitting — but this is identical to the naive baseline, meaning they default to predicting "No" most of the time
-- **Decision Tree overfits heavily** — 5.31% train/test gap signals the unconstrained tree memorises training data
+- **Logistic Regression and SVM tie** at 88.74% test accuracy with zero overfitting - but this is identical to the naive baseline, meaning they default to predicting "No" most of the time
+- **Decision Tree overfits heavily** - 5.31% train/test gap signals the unconstrained tree memorises training data
 - **KNN** shows mild overfitting (1%) and slightly lower test accuracy than LR/SVM
 
 ---
 
-## 9. Model Improvement — Hyperparameter Tuning
+## 9. Model Improvement - Hyperparameter Tuning
 
 ### Strategy
 
 - **GridSearchCV** with 3-fold cross-validation
-- **Scoring metric: `f1_macro`** — explicitly penalises models that ignore the minority class, directly targeting the business goal of identifying actual subscribers
+- **Scoring metric: `f1_macro`** - explicitly penalises models that ignore the minority class, directly targeting the business goal of identifying actual subscribers
 
 ### Parameter Grids Searched
 
@@ -258,13 +258,13 @@ By Test Accuracy:               By CV F1-macro (minority-class aware):
 3. DT        ->  0.8645        3. LR / SVM       ->  0.4702  (barely above baseline)
 ```
 
-LR and SVM achieve high accuracy by predominantly predicting "No". Decision Tree and KNN — at the cost of slightly lower overall accuracy — identify a meaningfully larger share of actual subscribers, which is what the business needs.
+LR and SVM achieve high accuracy by predominantly predicting "No". Decision Tree and KNN - at the cost of slightly lower overall accuracy - identify a meaningfully larger share of actual subscribers, which is what the business needs.
 
-### Decision Tree — An Important Tuning Result
+### Decision Tree - An Important Tuning Result
 
-> ⚠️ **Notable finding:** GridSearchCV selected `max_depth=None, min_samples_split=2` — the **fully unpruned tree** — as the best Decision Tree configuration when scoring on `f1_macro`. This is intentional: the deeper tree learns fine-grained patterns that distinguish the minority "Yes" class, which the F1-macro scorer rewards. The trade-off is lower overall test accuracy (86.45%) versus the linear models, but superior subscriber identification.
+> ⚠️ **Notable finding:** GridSearchCV selected `max_depth=None, min_samples_split=2` - the **fully unpruned tree** - as the best Decision Tree configuration when scoring on `f1_macro`. This is intentional: the deeper tree learns fine-grained patterns that distinguish the minority "Yes" class, which the F1-macro scorer rewards. The trade-off is lower overall test accuracy (86.45%) versus the linear models, but superior subscriber identification.
 
-### KNN — Tuning Behaviour
+### KNN - Tuning Behaviour
 
 Tuned KNN (`n_neighbors=5, weights=distance`) achieved a **higher CV F1-macro (0.5282)** than default, but its **test accuracy fell from 88.13% to 87.08%**. This directly illustrates the accuracy vs. recall trade-off: the tuned model sacrifices some overall accuracy to catch more actual subscribers.
 
@@ -291,24 +291,24 @@ Best by F1-macro:  Decision Tree > KNN > LR = SVM
 
 | Metric | Favours | Why |
 |---|---|---|
-| Test Accuracy | LR / SVM | They mostly predict "No" — correct 88.7% of the time due to class imbalance |
+| Test Accuracy | LR / SVM | They mostly predict "No" - correct 88.7% of the time due to class imbalance |
 | CV F1-macro | Decision Tree / KNN | They learn patterns that identify the 11.3% minority class at the cost of some overall accuracy |
 | ROC-AUC (~0.70) | LR / SVM | They produce better-calibrated probability rankings across all thresholds |
 
-### LR vs. SVM — The Tie Explained
+### LR vs. SVM - The Tie Explained
 
-Both models achieve identical results (0.8874 accuracy, 0.4702 F1-macro, ~0.70 AUC). This is not coincidence: with one-hot encoded categorical features, both converge to the same linear decision boundary — they just find it via different loss functions (log-loss vs. hinge loss). The practical tiebreaker is that **LR outputs calibrated probabilities** (`predict_proba`), allowing the team to rank clients by subscription likelihood and tune the decision threshold. SVM requires an additional calibration step to achieve this.
+Both models achieve identical results (0.8874 accuracy, 0.4702 F1-macro, ~0.70 AUC). This is not coincidence: with one-hot encoded categorical features, both converge to the same linear decision boundary - they just find it via different loss functions (log-loss vs. hinge loss). The practical tiebreaker is that **LR outputs calibrated probabilities** (`predict_proba`), allowing the team to rank clients by subscription likelihood and tune the decision threshold. SVM requires an additional calibration step to achieve this.
 
 ### Most Predictive Features
 
 From Decision Tree feature importances and Logistic Regression coefficients:
 
-1. **Education level** — university degree clients are the most receptive
-2. **Job type** — students and retired individuals subscribe above average; blue-collar workers least
-3. **Housing loan status** — clients without housing loans are significantly more likely to subscribe
-4. **Personal loan status** — same pattern; loan-free clients convert more
-5. **Age** — younger (18-30) and older (60+) cohorts are more responsive
-6. **Marital status** — single clients show slightly higher conversion
+1. **Education level** - university degree clients are the most receptive
+2. **Job type** - students and retired individuals subscribe above average; blue-collar workers least
+3. **Housing loan status** - clients without housing loans are significantly more likely to subscribe
+4. **Personal loan status** - same pattern; loan-free clients convert more
+5. **Age** - younger (18-30) and older (60+) cohorts are more responsive
+6. **Marital status** - single clients show slightly higher conversion
 
 
 ### Detailed Model Performance Comparison
@@ -346,15 +346,15 @@ Although the Decision Tree has slightly lower overall accuracy (~86.5% vs 88.7%)
 - Enables the marketing team to target a meaningful subset of high-probability clients
 - Provides **real business value**, unlike accuracy-optimised models that ignore the minority class
 
-> In a campaign setting, missing a potential subscriber is far more costly than making an extra call — making recall the more important metric.
+> In a campaign setting, missing a potential subscriber is far more costly than making an extra call - making recall the more important metric.
 
-### Which Model to Choose — It Depends on Your Goal
+### Which Model to Choose - It Depends on Your Goal
 
-There is no single best model — the correct choice depends on what the business is optimising for:
+There is no single best model - the correct choice depends on what the business is optimising for:
 
 | Goal | Recommended Model | Reason |
 |---|---|---|
-| **Maximise subscriber identification** (campaign ROI) | **Decision Tree** | Highest CV F1-macro (0.5325) — best at finding actual subscribers |
+| **Maximise subscriber identification** (campaign ROI) | **Decision Tree** | Highest CV F1-macro (0.5325) - best at finding actual subscribers |
 | **Rank clients by subscription probability** | **Logistic Regression** | Best ROC-AUC (~0.70) with calibrated `predict_proba` output for threshold tuning |
 | **Fast, zero-overfitting linear baseline** | **SVM (Linear)** | Tied with LR on all metrics, fastest to tune (0.4s) |
 
@@ -395,12 +395,12 @@ The optimal choice depends on whether the campaign prioritises:
 
 | Priority | Recommendation | Expected Impact |
 |---|---|---|
-| High | **Include campaign and economic features** — month, day, previous outcome, `euribor3m`, `nr.employed` | These are among the strongest predictors and would significantly lift all models |
-| High | **Apply class-weight balancing** — `class_weight='balanced'` in LR/SVM, or SMOTE oversampling | Directly addresses the 89/11 imbalance; will substantially improve minority-class recall |
-| High | **Try ensemble methods** — Random Forest, XGBoost, LightGBM | Combine tree sensitivity to minority class with variance reduction; expected to outperform all models tested |
-| Medium | **Optimise decision threshold** — lower from 0.5 to ~0.2-0.3 for LR | Shifts precision/recall trade-off toward finding more subscribers without retraining |
-| Medium | **Cost-sensitive optimisation** — use a cost matrix (missed subscriber >> wasted call) | Frames tuning in terms of actual campaign revenue impact |
-| Low | **Cross-validate on temporal folds** — respect campaign ordering in CV | Avoids future-data leakage for a more realistic performance estimate |
+| High | **Include campaign and economic features** - month, day, previous outcome, `euribor3m`, `nr.employed` | These are among the strongest predictors and would significantly lift all models |
+| High | **Apply class-weight balancing** - `class_weight='balanced'` in LR/SVM, or SMOTE oversampling | Directly addresses the 89/11 imbalance; will substantially improve minority-class recall |
+| High | **Try ensemble methods** - Random Forest, XGBoost, LightGBM | Combine tree sensitivity to minority class with variance reduction; expected to outperform all models tested |
+| Medium | **Optimise decision threshold** - lower from 0.5 to ~0.2-0.3 for LR | Shifts precision/recall trade-off toward finding more subscribers without retraining |
+| Medium | **Cost-sensitive optimisation** - use a cost matrix (missed subscriber >> wasted call) | Frames tuning in terms of actual campaign revenue impact |
+| Low | **Cross-validate on temporal folds** - respect campaign ordering in CV | Avoids future-data leakage for a more realistic performance estimate |
 
 ---
 
